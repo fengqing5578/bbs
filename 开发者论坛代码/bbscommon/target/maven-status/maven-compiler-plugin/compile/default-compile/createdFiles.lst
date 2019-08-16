@@ -1,0 +1,5 @@
+com\fengqing\bbs\service\RpcBbsDetailService.class
+com\fengqing\bbs\bean\BbsSort.class
+com\fengqing\bbs\App.class
+com\fengqing\bbs\service\RpcBbsSortService.class
+com\fengqing\bbs\bean\BbsDetail.class

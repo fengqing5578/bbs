@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fengqing.bbs.bbsprovider.mapper.BbsDetailMapper">
+    <select id="list" resultType="bbsDetail">
+        select * from bbs_detail order by id desc
+    </select>
+    <select id="listByBbsSortId" resultType="bbsDetail">
+        select * from bbs_detail
+        <if test="bbsSortId != 0">
+            where sortid = #{bbsSortId}
+        </if>
+        order by id desc
+    </select>
+    <insert id="addBbsDetail">
+        insert into bbs_detail(title, author, detail, sortId) values(#{title}, #{author}, #{detail}, #{bbsSort.id})
+    </insert>
+</mapper>

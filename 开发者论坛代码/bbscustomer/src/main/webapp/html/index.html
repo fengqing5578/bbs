@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <style>
+        div{
+            width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #fatie{
+            margin-left: 950px;
+        }
+        table, table th, table tr, table td{
+            border: 1px solid #FF00FF;
+            text-align: center;
+        }
+        table{
+            width: 1000px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        table th{
+            background-color: #3e4eff;
+            height: 50px;
+        }
+        td[colspan='5']{
+            text-align: center;
+        }
+    </style>
+    <script src="../js/jquery-1.8.3.js"></script>
+    <script>
+        $(function () {
+            //获取分类列表
+            $.getJSON(
+                "/bbsSort/listBbsSorts",
+                function (data) {
+                    for(var i = 0; i < data.length; i++){
+                        $("<option value='"+data[i]['id']+"'>"+data[i]['name']+"</option>").insertAfter($("option:last"));
+                    }
+                }
+            );
+            $.getJSON(
+                "/bbsDetail/listBbsDetails",
+                function (data) {
+                    for(var i = 0; i < data.length; i++){
+                        var date = new Date(data[i].createDate);
+                        var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                        $("<tr><td>"+data[i].id+"</td><td>"+data[i].title+"</td><td>"+data[i].author+"</td><td>"
+                            + dateStr +"</td><td>"+data[i].replyCount+"</td></tr>").insertAfter($("tr:last"));
+                    }
+                    //发帖后的状态
+                    if(sessionStorage.getItem("msg") == "success"){
+                        $("<tr><td colspan='5'>"+"保存成功".fontcolor("red")+"</td></tr>").appendTo($("table"));
+                        sessionStorage.removeItem("msg");
+                    }
+                }
+            );
+            
+            //搜索
+            $("#sousuo").click(function () {
+                var bbsSortId = $("#fenlei").val();
+                $.getJSON(
+                    "/bbsDetail/listBbsDetailsByBbsSortId",
+                    "bbsSortId=" + bbsSortId,
+                    function (data) {
+                        $("table tr:gt(0)").remove();
+                        for(var i = 0; i < data.length; i++){
+                            var date = new Date(data[i].createDate);
+                            var dateStr = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                            $("<tr><td>"+data[i].id+"</td><td>"+data[i].title+"</td><td>"+data[i].author+"</td><td>"
+                                + dateStr +"</td><td>"+data[i].replyCount+"</td></tr>").insertAfter($("tr:last"));
+                        }
+                    }
+                );
+            });
+            
+            //发帖
+            $("#fatie").click(function () {
+                location.href = "http://localhost:8080/html/BbsDetailAdd.html";
+            });
+
+
+        });
+
+    </script>
+</head>
+<body>
+<div>
+    讨论版区
+    <select id="fenlei">
+        <option value="0">全部</option>
+    </select>
+    <input type="button" value="搜索" id="sousuo"/><br />
+    <input type="button" value="发帖" id="fatie" />
+</div>
+
+<table>
+    <tr>
+        <th>帖子ID</th>
+        <th>标题</th>
+        <th>作者</th>
+        <th>发布时间</th>
+        <th>回复次数</th>
+    </tr>
+</table>
+</body>
+</html>

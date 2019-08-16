@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布帖子页面</title>
+    <style>
+        table, table th, table tr, table td{
+            border: 1px solid #FF00FF;
+        }
+        table{
+            width: 500px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        table th{
+            background-color: #3e4eff;
+            height: 50px;
+        }
+        table td[colspan]{
+            text-align: center;
+        }
+    </style>
+    <script src="../js/jquery-1.8.3.js"></script>
+    <script>
+        $(function () {
+            //获取分类列表
+            $.getJSON(
+                "/bbsSort/listBbsSorts",
+                function (data) {
+                    for(var i = 0; i < data.length; i++){
+                        $("<option value='"+data[i]['id']+"'>"+data[i]['name']+"</option>").appendTo($("select"));
+                    }
+                }
+            );
+            $("#tijiao").click(function () {
+                var formMsg = $("form").serialize();
+                if($("input[name='author']").val() == "" || $("input[name='author']").val() == null){
+                    alert("作者不能为空");
+                } else if($("input[name='title']").val() == "" || $("input[name='title']").val() == null){
+                    alert("标题不能为空");
+                } else if($("textarea[name='detail']").val() == "" || $("textarea[name='detail']").val() == null){
+                    alert("详情不能为空");
+                } else {
+                    $.getJSON(
+                        "/bbsDetail/addBbsDetail",
+                        formMsg,
+                        function (data) {
+                            if(data.msg == "success"){
+                                sessionStorage.setItem("msg", "success");
+                                location.href = "http://localhost:8080/html/index.html";
+                            }
+                        }
+                    );
+                }
+            });
+            $("#fanhui").click(function () {
+                location.href = "http://localhost:8080/html/index.html";
+            });
+        });
+    </script>
+</head>
+<body>
+    <form>
+    <table>
+        <tr>
+            <th colspan="2">发布新帖</th>
+        </tr>
+        <tr>
+            <td>发布版区</td>
+            <td>
+                <select name="bbsSortId"></select>
+            </td>
+        </tr>
+        <tr>
+            <td>作者</td>
+            <td>
+                <input type="text" name="author" />*
+            </td>
+        </tr>
+        <tr>
+            <td>标题</td>
+            <td>
+                <input type="text" name="title" />*
+            </td>
+        </tr>
+        <tr>
+            <td>详细内容</td>
+            <td>
+                <textarea rows="5" cols="40" name="detail"></textarea>*
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" value="提交" id="tijiao" />
+                <input type="button" value="返回" id="fanhui" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>
