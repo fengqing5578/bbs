@@ -1,0 +1,65 @@
+nexus私服：http://blog.csdn.net/lewis_007/article/details/53582537
+访问地址：http://localhost:8081/nexus 
+通过账号 admin/admin123 登录。 
+启动zookeepr
+问题:zookeeper启动占用8080端口
+解决：在zoo.cfg中增加admin.serverPort=没有被占用的端口号
+
+
+启动duboox
+我自己的tomcat端口号改为了：8888
+http://localhost:8888/dubbo-admin-2.8.4/
+root root
+
+创建公共接口
+本地仓库： C:\Users\fengqing\.m2\repository
+<distributionManagement>
+    <repository>
+      <id>fengqing</id>
+      <url>http://localhost:8081/nexus/content/repositories/fengqing/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+ </distributionManagement>
+
+nexus访问地址
+http://localhost:8081/nexus/ 
+
+启动zookeepr：
+D:\zookeeper-3.5.2-alpha\bin\zkServer.cmd
+
+启动duboox所在的tomcat:
+D:\apache-tomcat-7.0.88\bin\startup.bat
+
+项目访问地址
+http://localhost:8080/html/index.html
+
+[{"id":1,"name":"java"},
+{"id":2,"name":"大数据"},
+{"id":3,"name":"C++"},
+{"id":4,"name":"人工智能"}]
+
+[{"author":"tom","createDate":1561278155000,"detail":"变量，运算服，表达式，集合等","id":1,"replyCount":0,"title":"java基础知识"},
+{"author":"jack","createDate":1561278208000,"detail":"html,CSS,javascript等","id":2,"replyCount":0,"title":"javaweb知识有哪些"},
+{"author":"lucy","createDate":1561278272000,"detail":"spring,springmvc,mybatis等","id":3,"replyCount":0,"title":"Java都有哪些框架"}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
